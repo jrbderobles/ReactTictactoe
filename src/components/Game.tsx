@@ -1,7 +1,10 @@
 import React, { FC, useState } from 'react'
+import { Button } from 'react-bootstrap';
 
 import Board from './Board';
 import { SquareType } from './Square';
+
+import '../index.css';
 
 const calculateWinner = (squares: SquareType[]): SquareType => {
   const lines = [
@@ -23,7 +26,7 @@ const calculateWinner = (squares: SquareType[]): SquareType => {
   }
 
   return null;
-}
+};
 
 const Game: FC = () => {
   const [xIsNext, setXIsNext] = useState<boolean>(true);
@@ -51,7 +54,15 @@ const Game: FC = () => {
   const jumpTo = (step: number): void => {
     setStepNumber(step);
     setXIsNext((step % 2) === 0);
-  }
+  };
+
+  const handleNewGame = () => {
+    setXIsNext(true);
+    setStepNumber(0);
+    setHistory([{
+      squares: Array(9).fill(null)
+    }]);
+  };
 
   const current = history[stepNumber];
   const winner = calculateWinner(current.squares);
@@ -62,7 +73,7 @@ const Game: FC = () => {
       'Go to game start';
     return (
       <li key={move}>
-        <button onClick={() => jumpTo(move)}>{desc}</button>
+        <Button className='game-info-btn' onClick={() => jumpTo(move)}>{desc}</Button>
       </li>
     );
   });
@@ -86,6 +97,7 @@ const Game: FC = () => {
       </div>
       <div className='game-info'>
         <div>{status}</div>
+        <Button className='game-info-btn' onClick={handleNewGame}>New Game</Button>
         <ol>{moves}</ol>
       </div>
     </div>
