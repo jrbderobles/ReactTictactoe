@@ -3,13 +3,17 @@ import React, { FC } from 'react'
 import '../Applications/Calculator.css';
 
 interface CalculatorDisplayProps {
-  value: string
+  evaluatedExpression: number,
+  expression: string
 }
 
-const CalculatorDisplay: FC<CalculatorDisplayProps> = ({ value }) => {
+const CalculatorDisplay: FC<CalculatorDisplayProps> = ({ evaluatedExpression, expression }) => {
   return (
     <div className='calculator-display'>
-      <p>{value}</p>
+      <p>
+        <span className='evaluated-expression'>({evaluatedExpression})</span>&nbsp;
+        <span className='expression'>{expression}</span>
+      </p>
     </div>
   );
 }

@@ -6,25 +6,27 @@ import CalculatorOperatorOrOperand from '../components/CalculatorOperatorOrOpera
 
 const Calculator: FC = () => {
   const [expression, setExpression] = useState<string>('0');
-  const [history, setHistory] = useState<{ values: boolean[] }[]>([{
-    values: Array(17).fill(false)
-  }]);
+  const [evaluatedExpression, setEvaluatedExpression] = useState<number>(0);
 
   const onNumberOrOperationClick = (i: string): void => {
     if (i === 'DEL') {
       setExpression('0');
+      setEvaluatedExpression(0);
       return;
     }
 
     if (expression === '0') {
       setExpression(i);
+      if (!isNaN(parseInt(i))) setEvaluatedExpression(parseInt(i));
       return;
     }
 
-    if (i === '=') {
-      const expressonRegex = /(?:(?:^|[-+_*/])(?:\s*-?\d+(\.\d+)?(?:[eE][+-]?\d+)?\s*))+$/
+    const expressonRegex = /(?:(?:^|[-+_*/])(?:\s*-?\d+(\.\d+)?(?:[eE][+-]?\d+)?\s*))+$/
+    let isValidExpression: boolean;
 
-      if (expressonRegex.test(expression)) {
+    if (i === '=') {
+      isValidExpression = expressonRegex.test(expression);
+      if (isValidExpression) {
         setExpression(evaluate(expression));
       } else {
         alert('Mathematical expression is invalid!');
@@ -33,6 +35,8 @@ const Calculator: FC = () => {
       return;
     }
 
+    isValidExpression = expressonRegex.test(expression + i);
+    if (isValidExpression) setEvaluatedExpression(evaluate(expression + i));
     setExpression(expression + i);
   };
 
@@ -49,7 +53,7 @@ const Calculator: FC = () => {
   return (
     <div>
       <div className='calculator-row calculator-top-edge'>
-        <CalculatorDisplay value={expression} />
+        <CalculatorDisplay evaluatedExpression={evaluatedExpression} expression={expression} />
       </div>
       <div className='calculator-row'>
         {renderOperatorOrOperand('/', 'calculator-operation')}

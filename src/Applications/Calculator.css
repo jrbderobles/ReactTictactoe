@@ -13,7 +13,12 @@
   color: white;
 }
 
-.calculator-display p {
+.calculator-display .evaluated-expression {
+  font-size: 15px;
+  color: grey;
+}
+
+.calculator-display .expression {
   margin-right: 10px;
   font-size: 30px;
 }
