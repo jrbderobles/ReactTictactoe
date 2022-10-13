@@ -70,6 +70,8 @@ const Game: FC = () => {
   let status;
   if (winner) {
     status = 'Winner: ' + winner;
+  } else if (!current.squares.includes(null)) {
+    status = 'It\'s a tie!';
   } else {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
