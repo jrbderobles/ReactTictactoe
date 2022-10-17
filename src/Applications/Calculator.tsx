@@ -37,7 +37,7 @@ const Calculator: FC = () => {
 
     isValidExpression = expressonRegex.test(expression + i);
     if (isValidExpression) setEvaluatedExpression(evaluate(expression + i));
-    setExpression(expression + i);
+    setExpression(currExpression => currExpression + i);
   };
 
   const renderOperatorOrOperand = (i: string, additionalClassNames?: string): ReactNode => {
